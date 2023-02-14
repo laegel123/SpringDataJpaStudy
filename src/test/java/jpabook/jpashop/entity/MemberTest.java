@@ -40,7 +40,7 @@ class MemberTest {
         em.persist(member3);
         em.persist(member4);
 
-        em.flush();º
+        em.flush();
 
         // when
 
