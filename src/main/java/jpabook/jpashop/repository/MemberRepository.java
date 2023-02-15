@@ -1,6 +1,8 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m where m.username = :username and m.age = :age")
     List<Member> findUser(@Param("username") String username, @Param("age") int age);
 
+    Page<Member> findByAge(int age, Pageable pageable);
+
+    @Query(value = "select m from Member m left join m.team t",
+            countQuery = "select count(m.username) from Member m")
+    Page<Member> findByAgeWithCountQuery(int age, Pageable pageable);
 }
