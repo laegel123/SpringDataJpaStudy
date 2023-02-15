@@ -143,4 +143,10 @@ class MemberRepositoryTest {
 
     }
 
+    @Test
+    public void entityGraphTest() throws Exception {
+        List<Member> members = memberRepository.findAll();
+
+    }
+
 }
