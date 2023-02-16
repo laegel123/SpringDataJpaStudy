@@ -29,7 +29,7 @@ public class MemberController {
         return member.getUsername();
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         memberRepository.save(new Member("userA"));
     }
@@ -40,7 +40,7 @@ public class MemberController {
                 .map(MemberDto::new);
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void pageInit() {
         for (int i = 0; i < 100; i++) {
             memberRepository.save(new Member("user" + i, i));

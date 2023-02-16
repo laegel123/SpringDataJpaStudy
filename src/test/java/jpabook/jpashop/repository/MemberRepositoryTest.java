@@ -3,6 +3,7 @@ package jpabook.jpashop.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jpabook.jpashop.entity.Member;
+import jpabook.jpashop.entity.Team;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -175,6 +176,54 @@ class MemberRepositoryTest {
         List<Member> members = memberRepository.findLockByUsername("member1");
 
         em.flush();
+
+    }
+
+    @Test
+    public void projections() throws Exception {
+        // given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1, 0, teamA");
+        Member m2 = new Member("m2, 0, teamA");
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        List<UsernameOnlyDto> members = memberRepository.findProjectionsByUsername("m1");
+        for (UsernameOnlyDto member : members) {
+            System.out.println("member = " + member);
+        }
+
+
+        // then
+
+    }
+
+    @Test
+    public void projections2() throws Exception {
+        // given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1, 0, teamA");
+        Member m2 = new Member("m2, 0, teamA");
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(1, 10));
+        System.out.println("result = " + result);
+
+
+        // then
 
     }
 
